@@ -1,36 +1,100 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# next-page-scoped-js-scss 
 
-## Getting Started
+Next.js AppRouterでjsxではなくhtml/css/javascriptを別のサイトから持ってきてそのまま使いたい場合
 
-First, run the development server:
+以下のコンポーネントを使うと、html/css/javascriptをそのまま使うことができます。
+- utils/HtmlText.tsx
+- utils/ScriptCode.tsx
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Usage
+
+Webページ(page.tsx)サンプル
+```tsx
+import HtmlText from "@/utils/HtmlText";
+import "./style.scss";
+import script from "./script.js";
+
+/**
+ * このページはJSXを使わずにHTML/javascript/cssを直接記述し作られています。
+ * script.js/style.scssをimportしている場合はスクリプトを実行したり、スタイルも変えられます。
+ */
+export default function Page() {
+  return <HtmlText
+    className={`not-jsx-page`}
+    script={script}
+    html={html}
+  />;
+}
+
+const html = `
+  <h1>Not JSX</h1>
+  <p>このページはJSXを使わずにHTMLを直接記述しています</p>
+  <h2>importしたnot-jsx-page.scssからスタイルも変えられます</h2>
+  <button onclick="alertHello()">ここをクリック</button>
+  
+  <script>
+  function alertHello() {
+      alert('Hello');
+  }
+  </script>
+  
+  <!-- SCSSでスタイルしたい場合は「./style.scss」 -->
+  <style>
+  .not-jsx-page {
+      background-color: #f0f0f0;
+      padding: 20px;
+  }
+  </style>
+`;
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## javascriptだけ読み込んで使いたい場合
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Webページ(page.tsx)サンプル
+```tsx
+import script from "./script.js";
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+export default function Page() {
+  return <div>
+    <ScriptCode script={script} />
+  </div>;
+}
+```
 
-## Learn More
+script.js
+```javascript
+"use client";
 
-To learn more about Next.js, take a look at the following resources:
+export default function script() {
+    console.log("script.js script()");
+}
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Development
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Node.js (v18.17以上)<br>
+- nodebrewやnvm、asdfなどのNode自体のバージョン管理ツール使用してインストールしてください。
+- インストールできたらTerminalで以下のコマンドでバージョンを確認してください。
+```bash
+node -v
+(18.17以上が最低動作要件になります)
+```
 
-## Deploy on Vercel
+Bunコマンド (v1.0.6以上)
+```bash
+curl -fsSL https://bun.sh/install | bash # for macOS, Linux, and WSL
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# 必要なライブラリをインストール
+bun i
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+# versionを確認
+bun -v
+(1.0.6以上推奨)
+```
+
+### sample Next.js
+
+```bash
+bun i
+bun dev
+```
