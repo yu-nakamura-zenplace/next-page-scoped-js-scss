@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/next-scss-page-scope.iml" filepath="$PROJECT_DIR$/.idea/next-scss-page-scope.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/next-page-scoped-js-scss.iml" filepath="$PROJECT_DIR$/.idea/next-page-scoped-js-scss.iml" />
     </modules>
   </component>
 </project>
